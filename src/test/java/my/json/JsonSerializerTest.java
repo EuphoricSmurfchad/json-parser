@@ -7,7 +7,7 @@ import my.json.JsonSerializer;
 
 public class JsonSerializerTest {
 
-    //Тесты на сериализацию строк
+    // Тесты на сериализацию строк
     @Test
     public void serializesNull() {
         String expected = "null";
@@ -233,5 +233,29 @@ public class JsonSerializerTest {
         Assertions.assertTrue(result.contains("\"full_name\":\"Frank\""));
         Assertions.assertTrue(result.contains("\"city\":\"Spb\""));
         Assertions.assertFalse(result.contains("\"secretAge\""));
+    }
+
+    static class SharedLeaf {
+        public int value;
+    }
+
+    static class SharedHolder {
+        public Object first;
+        public Object second;
+    }
+
+    @Test
+    public void serializesSharedReferenceWithoutFalseCycle() {
+        SharedLeaf leaf = new SharedLeaf();
+        leaf.value = 7;
+
+        SharedHolder holder = new SharedHolder();
+        holder.first = leaf;
+        holder.second = leaf;
+
+        String result = JsonSerializer.toJson(holder);
+
+        Assertions.assertTrue(result.contains("\"first\":{\"value\":7}"));
+        Assertions.assertTrue(result.contains("\"second\":{\"value\":7}"));
     }
 }
