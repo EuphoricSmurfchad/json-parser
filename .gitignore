@@ -1,0 +1,17 @@
+# Maven build output (recreated by `mvn package`, never commit)
+target/
+
+# Compiled classes that may appear outside target/
+*.class
+
+# IDE / editor settings (personal, machine-specific)
+.idea/
+*.iml
+.vscode/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
