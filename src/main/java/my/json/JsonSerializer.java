@@ -73,7 +73,12 @@ public class JsonSerializer {
         if (path.contains(value))
             throw new IllegalStateException("циклическая ссылка найдена");
         path.add(value);
-        writeObject(out, value, path);
+        try {
+            writeObject(out, value, path);
+
+        } finally {
+            path.remove(value);
+        }
     }
 
     private static String escape(String s) {
